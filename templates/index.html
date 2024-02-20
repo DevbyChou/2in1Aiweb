@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="เว็บค้นหาแนวเพลง เกี่ยวกับแนวเพลง" name="description"/>
+<meta content="Suntiwong" name="author"/> <!--คนสร้าง สันติวงศ์-->
+<meta content="แนวเพลงนี้คืออะไร" name="keywords"/> <!--Kw ในการค้นหาเว็ป-->
+<title>Music Genre Classification</title> <!--หัวข้อหน้าเว็ป-->
+<link href="static/styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<header>
+<h1>Music Genre Classification</h1>
+</header>
+<section class="microphone">
+<br/><br/><br/><br/>
+<div class="text-div-1">
+<h2>Music genre</h2>
+<p>เบื่อจริงๆชอบอารมณ์ของเพลงนี้มากๆ แต่กลับไม่เข้าใจว่าแนวเพลงที่เรากำลังฟังคือเพลงอะไร</p>
+</div>
+<form action="/predict/" enctype="multipart/form-data" method="post">
+  <div class="model-selection-div">
+    <label>Select Model: </label>
+    <select name="model_selection">
+        <option value="thai" selected>Thai</option>
+        <option value="int">Inter</option>
+    </select>
+</div>
+<br>
+<div class="fileInput">
+<div class="input-div">
+<br/>
+<input accept=".wav" class="input" name="file" required="" type="file"/><br/><br/>
+<button class="btnPredict" onclick="showLoadingAnimation()" type="submit">Predict</button>
+<!--animation id="loadingHamster" class="wheel-and-hamster hidden"-->
+<div class="sharingon hidden" id="loadingHamster">
+<div class="ring">
+<div class="to"></div>
+<div class="to"></div>
+<div class="to"></div>
+<div class="circle"></div>
+</div>
+</div>
+</div>
+</div>
+</form>
+<div class="text-div-1">
+<p>A microphone is a device that converts sound waves into an electrical current.</p>
+<p>Use AI to identify that song what genre it is</p>
+</div>
+<div class="result">
+<div class="Gen">  
+        {% if predicted_label %}
+        <p>Predicted Genre: {{ predicted_label }}</p>
+        {% endif %}
+      </div>
+</div>
+    {% if predicted_label %}
+    <form action="/recommends/" method="post">
+      <input type="hidden" name="predicted_label" value="{{ predicted_label }}">
+      <button class="Rec" type="submit">Recommends</button>
+  </form>
+  {% endif %}
+  
+    </form>
+  
+    {% if tracks %}
+  <div class="sidebar">
+      <h3>Recommended Songs</h3>
+      <ul>
+          {% for track in tracks %}
+              <li>
+                  <img src="{{ track['cover_image'] }}" alt="{{ track['name'] }}" width="100">
+                  <a href="{{ track['spotify_link'] }}">{{ track['name'] }} by {{ track['artist'] }}</a>
+                  <audio controls>
+                      <source src="{{ track['preview_url'] }}" type="audio/mpeg">
+                      Your browser does not support the audio element.
+                  </audio>
+                  <p>ความนิยม: {{ track['popularity'] }}</p>
+              </li>
+          {% endfor %}
+      </ul>
+  </div>
+  {% endif %}
+    </section>
+    <footer>
+      <p>&copy; Suntiwong Mic Web Page</p>
+    </footer>
+    <script src="/static/script.js"></script>
+  </body>
+  </html>
+
+

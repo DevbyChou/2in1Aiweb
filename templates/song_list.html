@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>genre_selection</title>
+</head>
+<body>
+    <ul>
+        {% for track in tracks %}
+            <li>
+                <img src="{{ track['cover_image'] }}" alt="{{ track['name'] }}" width="100">
+                <a href="{{ track['spotify_link'] }}">{{ track['name'] }} by {{ track['artist'] }}</a>
+                <audio controls>
+                    <source src="{{ track['preview_url'] }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p>ความนิยม: {{ track['popularity'] }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding: 50px;
+            }
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+            li {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+            img {
+                max-width: 100px;
+                border-radius: 8px;
+                margin-right: 20px;
+            }
+            a {
+                text-decoration: none;
+                color: #007BFF;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            audio {
+                width: 100%;
+                margin-top: 10px;
+            }
+        </style>
+</body>
+</html>
